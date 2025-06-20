@@ -39,11 +39,15 @@ public class EstudianteService {
     }
 
     public void deleteById(Long id) {
+        // Primero, verificar si el estudiante existe
         Estudiante estudiante = estudianteRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
 
+        // Luego, eliminamos las reservas asociadas al estudiante
+        // generamos el método en el repositorio reservaRepository, no en el service, ya que no es necesario, este método se lo se ejecutará desde acá
         reservaRepository.deleteByEstudiante(estudiante);
 
+        // Finalmente, eliminamos el estudiante
         estudianteRepository.delete(estudiante);
     }
 

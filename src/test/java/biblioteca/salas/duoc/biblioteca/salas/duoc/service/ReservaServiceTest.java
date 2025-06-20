@@ -1,6 +1,7 @@
 package biblioteca.salas.duoc.biblioteca.salas.duoc.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Date;
@@ -82,4 +83,84 @@ public class ReservaServiceTest {
         reservaService.deleteById(1L);
         verify(reservaRepository, times(1)).deleteById(1L);
     }
+
+    @Test
+    public void testFindByEstudianteId() {
+        when(reservaRepository.findByEstudianteId(10)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findByEstudianteId(10);
+        assertNotNull(reservas);
+        assertFalse(reservas.isEmpty());
+    }
+
+    @Test
+    public void testFindBySalaCodigo() {
+        when(reservaRepository.findBySalaCodigo(5L)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findBySalaCodigo(5L);
+        assertEquals(1, reservas.size());
+    }
+
+    @Test
+    public void testFindByEstado() {
+        when(reservaRepository.findByEstado(1)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findByEstado(1);
+        assertFalse(reservas.isEmpty());
+    }
+
+    @Test
+    public void testFindByFechaSolicitada() {
+        Date fecha = new Date();
+        when(reservaRepository.findByFechaSolicitada(fecha)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findByFechaSolicitada(fecha);
+        assertFalse(reservas.isEmpty());
+    }
+
+    @Test
+    public void testFindByFechaSolicitadaBetween() {
+        Date inicio = new Date();
+        Date fin = new Date(System.currentTimeMillis() + 86400000); // +1 día
+        when(reservaRepository.findByFechaSolicitadaBetween(inicio, fin)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findByFechaSolicitadaBetween(inicio, fin);
+        assertEquals(1, reservas.size());
+    }
+
+    @Test
+    public void testContByEstudianteId() {
+        when(reservaRepository.countByEstudianteId(10)).thenReturn(2L);
+        Long count = reservaService.contByEstudianteId(10);
+        assertEquals(2L, count);
+    }
+
+    @Test
+    public void testFindByEstudianteIdAndFechaSolicitada() {
+        Date fecha = new Date();
+        when(reservaRepository.findByEstudianteIdAndFechaSolicitada(10, fecha)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findByEstudianteIdAndFechaSolicitada(10, fecha);
+        assertEquals(1, reservas.size());
+    }
+
+    @Test
+    public void testFindBySalaAndEstado() {
+        when(reservaRepository.findBySalaCodigoAndEstado(5, 1)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findBySalaAndEstado(5, 1);
+        assertFalse(reservas.isEmpty());
+    }
+
+    @Test
+    public void testFindByEstudianteIdAndFechaSolicitadaBetween() {
+        Date inicio = new Date();
+        Date fin = new Date(System.currentTimeMillis() + 86400000);
+        when(reservaRepository.findByEstudianteIdAndFechaSolicitadaBetween(10, inicio, fin)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findByEstudianteIdAndFechaSolicitadaBetween(10, inicio, fin);
+        assertFalse(reservas.isEmpty());
+    }
+
+    @Test
+    public void testFindBySalaAndFechaSolicitadaBetween() {
+        Date inicio = new Date();
+        Date fin = new Date(System.currentTimeMillis() + 86400000);
+        when(reservaRepository.findBySalaCodigoAndFechaSolicitadaBetween(5, inicio, fin)).thenReturn(List.of(createReserva()));
+        List<Reserva> reservas = reservaService.findBySalaAndFechaSolicitadaBetween(5, inicio, fin);
+        assertFalse(reservas.isEmpty());
+    }
+
 }

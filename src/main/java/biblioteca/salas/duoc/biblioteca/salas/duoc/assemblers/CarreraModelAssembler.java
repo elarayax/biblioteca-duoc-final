@@ -1,8 +1,9 @@
 package biblioteca.salas.duoc.biblioteca.salas.duoc.assemblers;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import biblioteca.salas.duoc.biblioteca.salas.duoc.controller.CarreraControllerV2;
+import biblioteca.salas.duoc.biblioteca.salas.duoc.controller.v2.CarreraControllerV2;
 import biblioteca.salas.duoc.biblioteca.salas.duoc.model.Carrera;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;

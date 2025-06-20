@@ -1,4 +1,4 @@
-package biblioteca.salas.duoc.biblioteca.salas.duoc.controller;
+package biblioteca.salas.duoc.biblioteca.salas.duoc.controller.v2;
 
 import biblioteca.salas.duoc.biblioteca.salas.duoc.assemblers.CarreraModelAssembler;
 import biblioteca.salas.duoc.biblioteca.salas.duoc.model.Carrera;
@@ -8,16 +8,25 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v2/carreras")
-public class CarreraControllerV2 {
+public class CarreraController {
 
     @Autowired
     private CarreraService carreraService;
@@ -37,7 +46,7 @@ public class CarreraControllerV2 {
 
         return ResponseEntity.ok(CollectionModel.of(
                 carreras,
-                linkTo(methodOn(CarreraControllerV2.class).getAllCarreras()).withSelfRel()
+                linkTo(methodOn(CarreraController.class).getAllCarreras()).withSelfRel()
         ));
     }
 
@@ -54,7 +63,7 @@ public class CarreraControllerV2 {
     public ResponseEntity<EntityModel<Carrera>> createCarrera(@RequestBody Carrera carrera) {
         Carrera newCarrera = carreraService.save(carrera);
         return ResponseEntity
-                .created(linkTo(methodOn(CarreraControllerV2.class).getCarreraByCodigo(newCarrera.getCodigo())).toUri())
+                .created(linkTo(methodOn(CarreraController.class).getCarreraByCodigo(newCarrera.getCodigo())).toUri())
                 .body(assembler.toModel(newCarrera));
     }
 

@@ -1,4 +1,4 @@
-package biblioteca.salas.duoc.biblioteca.salas.duoc.controller;
+package biblioteca.salas.duoc.biblioteca.salas.duoc.controller.v2;
 
 import biblioteca.salas.duoc.biblioteca.salas.duoc.assemblers.ReservaModelAssembler;
 import biblioteca.salas.duoc.biblioteca.salas.duoc.model.Reserva;
@@ -10,17 +10,26 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v2/reservas")
-public class ReservaControllerV2 {
+public class ReservaController {
 
     @Autowired
     private ReservaService reservaService;
@@ -35,7 +44,7 @@ public class ReservaControllerV2 {
                 .collect(Collectors.toList());
 
         return CollectionModel.of(reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getAllReservas()).withSelfRel());
+                linkTo(methodOn(ReservaController.class).getAllReservas()).withSelfRel());
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
@@ -60,7 +69,7 @@ public class ReservaControllerV2 {
     public ResponseEntity<EntityModel<Reserva>> createReserva(@RequestBody Reserva reserva) {
         Reserva nuevaReserva = reservaService.save(reserva);
         return ResponseEntity
-                .created(linkTo(methodOn(ReservaControllerV2.class).getReservaById(Long.valueOf(nuevaReserva.getId()))).toUri())
+                .created(linkTo(methodOn(ReservaController.class).getReservaById(Long.valueOf(nuevaReserva.getId()))).toUri())
                 .body(assembler.toModel(nuevaReserva));
     }
 
@@ -101,7 +110,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasBySala(codigo)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasBySala(codigo)).withSelfRel()
         );
     }
 
@@ -113,7 +122,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasByEstudiante(idEstudiante)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasByEstudiante(idEstudiante)).withSelfRel()
         );
     }
 
@@ -125,7 +134,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasByEstado(estado)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasByEstado(estado)).withSelfRel()
         );
     }
 
@@ -137,7 +146,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasByFechaSolicitada(fecha)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasByFechaSolicitada(fecha)).withSelfRel()
         );
     }
 
@@ -150,7 +159,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasByFechaSolicitadaBetween(fechaInicio, fechaFin)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasByFechaSolicitadaBetween(fechaInicio, fechaFin)).withSelfRel()
         );
     }
 
@@ -170,7 +179,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasByEstudianteAndFecha(idEstudiante, fecha)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasByEstudianteAndFecha(idEstudiante, fecha)).withSelfRel()
         );
     }
 
@@ -184,7 +193,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasBySalaAndEstado(idSala, estado)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasBySalaAndEstado(idSala, estado)).withSelfRel()
         );
     }
 
@@ -198,7 +207,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasByEstudianteBetweenFechas(idEstudiante, fechaInicio, fechaFin)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasByEstudianteBetweenFechas(idEstudiante, fechaInicio, fechaFin)).withSelfRel()
         );
     }
 
@@ -212,7 +221,7 @@ public class ReservaControllerV2 {
 
         return CollectionModel.of(
                 reservas,
-                linkTo(methodOn(ReservaControllerV2.class).getReservasBySalaBetweenFechas(idSala, fechaInicio, fechaFin)).withSelfRel()
+                linkTo(methodOn(ReservaController.class).getReservasBySalaBetweenFechas(idSala, fechaInicio, fechaFin)).withSelfRel()
         );
     }
 

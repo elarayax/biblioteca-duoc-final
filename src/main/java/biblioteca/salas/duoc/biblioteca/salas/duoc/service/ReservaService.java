@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import biblioteca.salas.duoc.biblioteca.salas.duoc.model.Estudiante;
 import biblioteca.salas.duoc.biblioteca.salas.duoc.model.Reserva;
 import biblioteca.salas.duoc.biblioteca.salas.duoc.repository.ReservaRepository;
 import jakarta.transaction.Transactional;
@@ -32,10 +31,6 @@ public class ReservaService {
 
     public void deleteById(Long id) {
         reservaRepository.deleteById(id);
-    }
-
-    public void deleteByEstudiante(Estudiante estudiante) {
-        reservaRepository.deleteByEstudiante(estudiante);
     }
 
     public List<Reserva> findByEstudianteId(Integer idEstudiante) {
