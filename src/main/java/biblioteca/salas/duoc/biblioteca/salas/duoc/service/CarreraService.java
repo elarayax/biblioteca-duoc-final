@@ -44,6 +44,8 @@ public class CarreraService {
         // Luego, hacemos un listado de estudiantes asociados a la carrera
         List<Estudiante> estudiantes = estudianteRepository.findByCarrera(carrera);
 
+        //por que si hay un for acá, porque puede haber más de un estudiante asociado a la carrera,
+
         // Eliminamos los estudiantes asociados a la carrera, ejecutando el método deleteById de EstudianteService, como sabrán para eliminar un estudiante, 
         // se eliminan las reservas asociadas a este y luego se elimina el estudiante, al usar el método deleteById de estudianteService,
         // se asegura que las reservas asociadas a los estudiantes sean eliminadas antes de eliminar el estudiante.

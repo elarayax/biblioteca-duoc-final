@@ -43,6 +43,8 @@ public class EstudianteService {
         Estudiante estudiante = estudianteRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
 
+        //por que no hay un for acá, porque el id es único, no hay más de un estudiante con el mismo id
+
         // Luego, eliminamos las reservas asociadas al estudiante
         // generamos el método en el repositorio reservaRepository, no en el service, ya que no es necesario, este método se lo se ejecutará desde acá
         reservaRepository.deleteByEstudiante(estudiante);
